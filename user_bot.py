@@ -420,7 +420,9 @@ async def help_cmd(message: Message):
 
 async def main():
     await db.init_db()
-    await dp.start_polling(bot)
+    # Avvalgi session/webhook ni o'chirib, conflict larni bartaraf qilish
+    await bot.delete_webhook(drop_pending_updates=True)
+    await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
 
 if __name__ == "__main__":
     asyncio.run(main())
